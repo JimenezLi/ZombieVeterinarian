@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:golden_apple"
+    },
+    "title": {
+      "translate": "advancements.zombieveterinarian.cure_zombie_pig.title"
+    },
+    "description": {
+      "translate": "advancements.zombieveterinarian.cure_zombie_pig.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:story/cure_zombie_villager",
+  "criteria": {
+    "cured_zombie_pig": {
+      "trigger": "zombieveterinarian:cured_zombie_pig",
+      "conditions": {}
+    }
+  },
+  "requirements": [
+    [
+      "cured_zombie_pig"
+    ]
+  ]
+}
