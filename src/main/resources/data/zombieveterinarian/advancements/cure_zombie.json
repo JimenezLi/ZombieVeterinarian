@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:enchanted_golden_apple"
+    },
+    "title": {
+      "translate": "advancements.zombieveterinarian.cure_zombie.title"
+    },
+    "description": {
+      "translate": "advancements.zombieveterinarian.cure_zombie.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "parent": "zombieveterinarian:cure_zombie_pig",
+  "criteria": {
+    "cured_zombie_pig": {
+      "trigger": "zombieveterinarian:cured_zombie",
+      "conditions": {}
+    }
+  },
+  "requirements": [
+    [
+      "cured_zombie_pig"
+    ]
+  ]
+}

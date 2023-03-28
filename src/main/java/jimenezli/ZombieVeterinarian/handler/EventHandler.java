@@ -1,14 +1,12 @@
 package jimenezli.ZombieVeterinarian.handler;
 
 import jimenezli.ZombieVeterinarian.entity.ConvertingZoglinEntity;
+import jimenezli.ZombieVeterinarian.entity.ConvertingZombieEntity;
 import jimenezli.ZombieVeterinarian.entity.ConvertingZombifiedPiglinEntity;
-import jimenezli.ZombieVeterinarian.advancements.Advancements;
 import net.minecraft.entity.*;
 import net.minecraft.entity.monster.ZoglinEntity;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.monster.ZombifiedPiglinEntity;
-import net.minecraft.entity.monster.piglin.PiglinEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.potion.EffectInstance;
@@ -17,14 +15,12 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.UUID;
 
 @Mod.EventBusSubscriber
 public class EventHandler {
@@ -59,6 +55,21 @@ public class EventHandler {
                     }
                 }
             }
+        } else if (itemStack.getItem() == Items.ENCHANTED_GOLDEN_APPLE) {
+            Entity target = evt.getTarget();
+            World world = evt.getWorld();
+            if (!world.isClientSide()) {
+                if (target.getClass() == ZombieEntity.class) {
+                    if (((ZombieEntity) target).hasEffect(Effects.WEAKNESS)) {
+                        ConvertingZombieEntity convertingZombie = ((ZombieEntity) target).convertTo(EntityRegistry.convertingZombie, true);
+                        if (convertingZombie != null) {
+                            convertingZombie.setConversionStarter(evt.getPlayer().getUUID());
+                            ConvertMob((MobEntity) target, convertingZombie, (ServerWorld) world);
+                            actionSuccessful = true;
+                        }
+                    }
+                }
+            }
         }
         if (actionSuccessful && !evt.getPlayer().isCreative()) {
             itemStack.shrink(1);
@@ -69,7 +80,8 @@ public class EventHandler {
     public static void onEntityJoinWorld(EntityJoinWorldEvent evt) {
         Entity entity = evt.getEntity();
         if (entity.getClass() == ConvertingZombifiedPiglinEntity.class
-            || entity.getClass() == ConvertingZoglinEntity.class) {
+            || entity.getClass() == ConvertingZoglinEntity.class
+            || entity.getClass() == ConvertingZombieEntity.class) {
             entity.level.playSound(null, entity.blockPosition(), SoundEvents.ZOMBIE_VILLAGER_CURE, entity.getSoundSource(), 1.0F + random.nextFloat(), random.nextFloat() * 0.7F + 0.3F);
         }
     }

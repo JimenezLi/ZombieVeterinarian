@@ -7,4 +7,5 @@ import static jimenezli.ZombieVeterinarian.ZombieVeterinarianMod.prefix;
 public class EntityNames {
     public static final ResourceLocation CONVERTING_ZOMBIFIED_PIGLIN = prefix("converting_zombified_piglin");
     public static final ResourceLocation CONVERTING_ZOGLIN = prefix("converting_zoglin");
+    public static final ResourceLocation CONVERTING_ZOMBIE = prefix("converting_zombie");
 }
